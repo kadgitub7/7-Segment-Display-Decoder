@@ -14,7 +14,7 @@ module SegmentDecoder(
     );
     
     assign a = b3 | b1 | (b0 ~^ b2);
-    assign b = b3 | (b1&b0) | b2 | (~b1& ~b0);
+    assign b = b3 | (b1&b0) | (~b2)&~(b3) | (~b1& ~b0);
     assign c = b3 | ~b1 | b0 | b2;
     assign d = b3 | (b1&~b0) | (~b0&~b2) | (b1&~b2) | ((~b1)&b0&b2);
     assign e = (b1&~b0) | (~b0&~b2);
