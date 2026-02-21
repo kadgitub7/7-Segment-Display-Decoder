@@ -14,6 +14,7 @@ A Verilog implementation of a 4-bit BCD to 7-segment display decoder, developed 
 - [Circuit Diagram](#circuit-diagram)
 - [Waveform Diagram](#waveform-diagram)
 - [Testbench Output](#testbench-output)
+- [Running the Project in Vivado](#running-the-project-in-vivado)
 - [Project Files](#project-files)
 
 ---
@@ -243,6 +244,49 @@ Input: 1001 | Output 1111011
 ```
 
 These results match the truth table and confirm that the decoder drives the correct segment pattern for each digit 0–9.
+
+---
+
+## Running the Project in Vivado
+
+Follow these steps to open the project in **Vivado** and run simulation.
+
+### Prerequisites
+
+- **Xilinx Vivado** installed (Vivado HL Design Edition or Lab Edition; any recent version that supports your OS).
+
+### 1. Launch Vivado
+
+Start Vivado from the Start Menu (Windows) or your application launcher. Choose **Vivado HLx** (or **Vivado**).
+
+### 2. Create a New Project
+
+1. Click **Create Project** (or **File → Project → New**).
+2. Click **Next** on the welcome page.
+3. Choose **RTL Project** and leave **Do not specify sources at this time** unchecked if you want to add sources in the next step, or check it and add sources later. Click **Next**.
+4. Add design and simulation sources:
+   - Click **Add Sources** → **Add or create design sources** → **Add Files** and add `SegmentDecoder.v`.
+   - Click **Add Sources** → **Add or create simulation sources** → **Add Files** and add `Decoder_tb.v`.
+   - Ensure the testbench is set as the **top** for simulation (right‑click `Decoder_tb.v` in the Sources window → **Set as Top** for simulation).
+5. Click **Next**, select your **target device** (e.g. a default FPGA/part or “Don’t specify” for simulation-only), then **Next** → **Finish**.
+
+### 3. Run Behavioral Simulation
+
+1. In the **Flow Navigator** (left panel), under **Simulation**, click **Run Behavioral Simulation**.
+2. Vivado will compile the design and testbench and open the **Simulation** view with the waveform.
+3. Use the waveform to verify that inputs b₃–b₀ and outputs a–g match the [truth table](#truth-table) and [testbench output](#testbench-output) above.
+
+### 4. (Optional) Re-run or Reload
+
+- To re-run: **Flow Navigator → Simulation → Run Behavioral Simulation** (or use the re-run button in the simulation toolbar).
+- To change the testbench or RTL, edit the `.v` files, save, then run simulation again.
+
+### 5. (Optional) Synthesis and Implementation
+
+If you want to target real hardware:
+
+1. Set `SegmentDecoder` as the top module: in **Sources**, right‑click `SegmentDecoder.v` → **Set as Top**.
+2. Run **Synthesis** from the Flow Navigator, then **Implementation**, then **Generate Bitstream** (after assigning pins in a constraints file if required).
 
 ---
 
