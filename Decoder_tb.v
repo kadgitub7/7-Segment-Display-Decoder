@@ -38,7 +38,7 @@ module Decoder_tb();
                 #10 {b3,b2,b1,b0} = k;
                 $strobe("Input: %b%b%b%b | Output %b%b%b%b%b%b%b", b3, b2, b1, b0, a,b,c,d,e,f,g);
             end
-        $finish;
+        #10 $finish;
     end
     
 endmodule
