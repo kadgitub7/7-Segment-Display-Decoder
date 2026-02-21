@@ -25,7 +25,9 @@ A **7-segment display decoder** is a combinational circuit that converts a **4-b
 - **Input:** Four bits b₃b₂b₁b₀ (e.g. 0000 = 0, 0001 = 1, … 1001 = 9).
 - **Output:** Seven signals **a, b, c, d, e, f, g**, one per segment, where 1 usually means “on” and 0 means “off.”
 
-The standard segment layout is: segment **a** at the top, **b** top-right, **c** bottom-right, **d** at the bottom, **e** bottom-left, **f** top-left, and **g** in the middle. This decoder is used in digital clocks, calculators, and any device that displays numeric digits.
+The standard segment layout—which letter corresponds to which segment—is shown below. Segment **a** is at the top, **b** top-right, **c** bottom-right, **d** at the bottom, **e** bottom-left, **f** top-left, and **g** in the middle. This decoder is used in digital clocks, calculators, and any device that displays numeric digits.
+
+![7-segment display segment layout (a–g)](imageAssets/displaySegments.png)
 
 ---
 
@@ -46,18 +48,19 @@ Useful online resources for 7-segment decoders and digital design:
 
 The decoder output **a–g** for each 4-bit BCD input (b₃, b₂, b₁, b₀) for digits 0–9. Rows 10–15 (1010–1111) are invalid BCD; the circuit may show a pattern but are not standard decimal digits.
 
-| **b₃** | **b₂** | **b₁** | **b₀** | **a** | **b** | **c** | **d** | **e** | **f** | **g** |
-|:------:|:------:|:------:|:------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-| 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 0 |
-| 0 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 0 |
-| 0 | 0 | 1 | 0 | 1 | 1 | 0 | 1 | 1 | 0 | 1 |
-| 0 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 0 | 0 | 1 |
-| 0 | 1 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 1 | 1 |
-| 0 | 1 | 0 | 1 | 1 | 0 | 1 | 1 | 0 | 1 | 1 |
-| 0 | 1 | 1 | 0 | 1 | 0 | 1 | 1 | 1 | 1 | 1 |
-| 0 | 1 | 1 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| 1 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| 1 | 0 | 0 | 1 | 1 | 1 | 1 | 1 | 0 | 1 | 1 |
+| **b₃** | **b₂** | **b₁** | **b₀** | **‖** | **a** | **b** | **c** | **d** | **e** | **f** | **g** |
+|:------:|:------:|:------:|:------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| **———** | **———** | **———** | **———** | **———** | **———** | **———** | **———** | **———** | **———** | **———** | **———** |
+| 0 | 0 | 0 | 0 | **\|** | 1 | 1 | 1 | 1 | 1 | 1 | 0 |
+| 0 | 0 | 0 | 1 | **\|** | 0 | 1 | 1 | 0 | 0 | 0 | 0 |
+| 0 | 0 | 1 | 0 | **\|** | 1 | 1 | 0 | 1 | 1 | 0 | 1 |
+| 0 | 0 | 1 | 1 | **\|** | 1 | 1 | 1 | 1 | 0 | 0 | 1 |
+| 0 | 1 | 0 | 0 | **\|** | 0 | 1 | 1 | 0 | 0 | 1 | 1 |
+| 0 | 1 | 0 | 1 | **\|** | 1 | 0 | 1 | 1 | 0 | 1 | 1 |
+| 0 | 1 | 1 | 0 | **\|** | 1 | 0 | 1 | 1 | 1 | 1 | 1 |
+| 0 | 1 | 1 | 1 | **\|** | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| 1 | 0 | 0 | 0 | **\|** | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| 1 | 0 | 0 | 1 | **\|** | 1 | 1 | 1 | 1 | 0 | 1 | 1 |
 
 ---
 
@@ -172,19 +175,35 @@ $$g = b_3 + b_1b_0' + b_1'b_2 + b_1b_2' = b_3 + b_1b_0' + (b_1 \oplus b_2)$$
 
 ## Simplified Boolean Equations
 
-Summary of the simplified expressions used in the Verilog RTL:
+Summary of the simplified expressions used in the Verilog RTL (⊙ = XNOR, ⊕ = XOR):
 
-| Segment | Equation |
-|---------|----------|
-| **a** | \( a = b_3 + b_1 + (b_0 \odot b_2) \) |
-| **b** | \( b = b_3 + b_1b_0 + b_3'b_2' + b_1'b_0' \) |
-| **c** | \( c = b_3 + b_1' + b_0 + b_2 \) |
-| **d** | \( d = b_3 + b_1b_0' + b_0'b_2' + b_1b_2' + b_1'b_0b_2 \) |
-| **e** | \( e = b_1b_0' + b_0'b_2' \) |
-| **f** | \( f = b_3 + b_2b_1' + b_2b_0' + b_1'b_0' \) |
-| **g** | \( g = b_3 + b_1b_0' + (b_1 \oplus b_2) \) |
+**Segment a:**
 
-Here \( \odot \) denotes XNOR and \( \oplus \) denotes XOR.
+$$a = b_3 + b_1 + (b_0 \odot b_2)$$
+
+**Segment b:**
+
+$$b = b_3 + b_1b_0 + b_3'b_2' + b_1'b_0'$$
+
+**Segment c:**
+
+$$c = b_3 + b_1' + b_0 + b_2$$
+
+**Segment d:**
+
+$$d = b_3 + b_1b_0' + b_0'b_2' + b_1b_2' + b_1'b_0b_2$$
+
+**Segment e:**
+
+$$e = b_1b_0' + b_0'b_2'$$
+
+**Segment f:**
+
+$$f = b_3 + b_2b_1' + b_2b_0' + b_1'b_0'$$
+
+**Segment g:**
+
+$$g = b_3 + b_1b_0' + (b_1 \oplus b_2)$$
 
 ---
 
@@ -202,7 +221,7 @@ Here \( \odot \) denotes XNOR and \( \oplus \) denotes XOR.
 
 Simulation waveform for the 7-segment decoder. Inputs b₃–b₀ cycle through BCD values 0–9; outputs a–g drive the seven segments.
 
-![Waveform Diagram](imageAssets/waveformDiagram.png)
+![Waveform Diagram](imageAssets/segmentWaveform.png)
 
 *Waveform: inputs b₃, b₂, b₁, b₀ and segment outputs a, b, c, d, e, f, g.*
 
