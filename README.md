@@ -209,9 +209,7 @@ $$g = b_3 + b_1b_0' + (b_1 \oplus b_2)$$
 
 ## Circuit Diagram
 
-**Note:** Add your circuit diagram image at `imageAssets/circuitDiagram.png` when completed. The diagram should show the combinational logic for segments a–g (e.g. AND, OR, NOT, XOR/XNOR gates driven by b₃, b₂, b₁, b₀).
-
-![Circuit Diagram](imageAssets/circuitDiagram.png)
+![Circuit Diagram](imageAssets/sevenSegmentCircuitDiagram.png)
 
 *Circuit diagram: 4-bit BCD to 7-segment decoder (combinational logic for segments a–g).*
 
